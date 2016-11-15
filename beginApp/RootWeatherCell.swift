@@ -7,3 +7,13 @@
 //
 
 import Foundation
+import UIKit
+
+class RootWeatherCell: UITableViewCell {
+    
+    static let identifier = "RootWeatherCell"
+
+    @IBOutlet var titleLabel : UILabel!
+    @IBOutlet var detailLabel : UILabel!
+    
+}
