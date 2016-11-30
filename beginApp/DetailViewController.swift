@@ -10,10 +10,18 @@ import Foundation
 import UIKit
 
 class DetailViewController: UIViewController{
-    @IBOutlet weak var LabelDetail: UILabel!
+    @IBOutlet var LabelDetail: UILabel!
+    
+    var weatherObj : WeatherObject!
+    
+    static let identifier = "DetailWeatherCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        if weatherObj != nil {
+//            label.text = "\(weatherObj["summary"])"
+//        }
     }
     
     override func viewDidLayoutSubviews() {

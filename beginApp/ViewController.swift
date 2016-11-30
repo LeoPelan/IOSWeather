@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Foundation
+import AlamofireImage
 
 class ViewController: UITableViewController {
-    
     
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var username: UITextField!
@@ -17,9 +18,15 @@ class ViewController: UITableViewController {
     
     var resultWeather : WeatherArray?
     
+    let weatherDataSource = RootWeatherDataSource()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = UIColor.blue
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         SWRequestmanager.sharedInstance.fetchWeather(onSuccess: {(result) in
             self.resultWeather = result
             self.reload()
@@ -31,6 +38,11 @@ class ViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func refresh(){
+//        self.weatherDataSource.updateWeather { [weak self] _ in
+            self.reload()
     }
     
     func reload() {
@@ -54,33 +66,61 @@ class ViewController: UITableViewController {
             let summary = objWeather["summary"] as? String,
             let time = objWeather["time"] as? Int else {
                 return cell
-
-        }
+            }
+            
+            let tempImageView = UIImageView(image: UIImage(named: "weather.jpg"))
+            tempImageView.frame = self.tableView.frame
+            self.tableView.backgroundView = tempImageView;
+            
             let date = NSDate(timeIntervalSince1970: TimeInterval(time))
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "fr_FR")
+            formatter.dateFormat = "EEEE dd MMM"
+            let finaleDate = formatter.string(from: date as Date)
             
-  
+            let urlimage = downloadImage(weath: objWeather["icon"] as! String)
             
-            cell.titleLabel.text = "\(date)"
+            cell.titleLabel.text = "\(finaleDate)"
             cell.detailLabel.text = "\(summary)"
+            
+            
+            
+            cell.weatherImage.af_setImage(withURL: urlimage)
             return cell
+
+            }
+    
+    func downloadImage(weath: String) -> URL {
+        
+        
+        let dictionnaryWeather = ["rain" : "http://openweathermap.org/img/w/10d.png", "":""]
+        for (clef, valeur) in dictionnaryWeather{
+            if clef == weath{
+                return URL(string: valeur)!
+            }
+            
+        }
+        return URL(string: "test")!
     }
     
-    
-    @IBAction func userTouchedBtn(){
-        
-        func showAlert(){
-            let alert = UIAlertController(title:"Test alert", message: "Enter correct username", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        if let username = username.text, let password = password.text , username.characters.count > 5, password == "toto42"{
-        performSegue(withIdentifier: "ShowDetail", sender: nil)
-        }
-        
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("User selected \(index)")
     }
+    
+    @IBAction func userTapped() {
+        self.performSegue(withIdentifier: "SegueDetail", sender: nil)
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "SegueDetail"{
+//            guard let selectedIndex = self.tableView.indexPathForSelectedRow
+//            let WeatherObject = self.weatherDataSource.getWeatherObject(forIndexRow: selectedIndex.row)}else {return}
+//            guard let DetailViewController = segue.destination as? DetailViewController
+//            segue.destination as? DetailViewController else {return}
+//            DetailViewController.weatherObj = weatherObj
+//        }
+    }
+    
 
 
-}
 

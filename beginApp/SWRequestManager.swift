@@ -11,7 +11,8 @@ import Alamofire
 
 // Request Manager to make HTPP Calls to weather server
 
-typealias WeatherArray = Array<Dictionary<String, Any>>
+typealias WeatherObject = Dictionary<String, AnyObject>
+typealias WeatherArray = Array<WeatherObject>
 class SWRequestmanager{
     
     static let sharedInstance = SWRequestmanager()
@@ -26,6 +27,7 @@ class SWRequestmanager{
         
         var strRequest = "\(host)\(apiKey)/"
         strRequest += "\(actualCoordinate.latitude),\(actualCoordinate.longitude)"
+        strRequest += "?lang=fr&units=si"
     Alamofire.request(strRequest).responseJSON { response in
     
     guard let JSON = response.result.value as? Dictionary<String, Any> else{
@@ -37,7 +39,7 @@ class SWRequestmanager{
             error("Request Manager -> \(strRequest)")
             return
         }
-        success(data)
+        success(data as WeatherArray)
         }
     }
 }

@@ -15,5 +15,8 @@ class RootWeatherCell: UITableViewCell {
 
     @IBOutlet var titleLabel : UILabel!
     @IBOutlet var detailLabel : UILabel!
+    @IBOutlet var weatherImage: UIImageView!
+    
+    
     
 }
