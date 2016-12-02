@@ -18,7 +18,7 @@ class ViewController: UITableViewController {
     
     var resultWeather : WeatherArray?
     
-    let weatherDataSource = RootWeatherDataSource()
+    //let weatherDataSource = RootWeatherDataSource()
     
 
     override func viewDidLoad() {
@@ -93,7 +93,11 @@ class ViewController: UITableViewController {
     func downloadImage(weath: String) -> URL {
         
         
-        let dictionnaryWeather = ["rain" : "http://openweathermap.org/img/w/10d.png", "":""]
+        let dictionnaryWeather = ["rain" : "http://openweathermap.org/img/w/10d.png",
+                                  "partly-cloudy-day":"http://openweathermap.org/img/w/02d.png",
+                                  "partly-cloudy-night":"http://openweathermap.org/img/w/02n.png",
+                                  "clear-day":"http://openweathermap.org/img/w/01d.png",
+                                  "clear-night":"http://openweathermap.org/img/w/01n.png"]
         for (clef, valeur) in dictionnaryWeather{
             if clef == weath{
                 return URL(string: valeur)!

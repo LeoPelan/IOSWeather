@@ -22,10 +22,6 @@
                                     <frame key="frameInset" width="375" height="175.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zB6-zk-Pxk">
-                                            <frame key="frameInset" minX="252" width="102" height="80"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSs-4P-1Ob" userLabel="Date Label">
                                             <frame key="frameInset" minX="21" minY="12" width="201" height="56"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -42,6 +38,10 @@
                                             <nil key="highlightedColor"/>
                                             <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zB6-zk-Pxk">
+                                            <frame key="frameInset" minX="275" minY="37" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.51877468824386597" green="0.34316146373748779" blue="0.91114598512649536" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -68,7 +68,7 @@
         <scene sceneID="5g5-QH-Z43">
             <objects>
                 <navigationController id="t6e-sH-nOI" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="egY-HM-7r3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="egY-HM-7r3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
