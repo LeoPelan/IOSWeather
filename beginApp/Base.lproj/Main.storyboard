@@ -103,7 +103,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="LabelDetail" destination="IvE-iH-UxV" id="kuD-uq-5aG"/>
+                        <outlet property="LabelDetail" destination="IvE-iH-UxV" id="zuk-XY-Ypa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atL-9l-P5t" userLabel="First Responder" sceneMemberID="firstResponder"/>

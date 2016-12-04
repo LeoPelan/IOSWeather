@@ -123,7 +123,45 @@ class ViewController: UITableViewController {
 //            segue.destination as? DetailViewController else {return}
 //            DetailViewController.weatherObj = weatherObj
 //        }
+    
+//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//            if segue.identifier == "SegueDetail"{
+//                let selectedIndex = self.tableView.indexPathForSelectedRow
+//                let WeatherObject = self.resultWeather?(forIndexRow: selectedIndex?.row)} else {return}
+//                guard let DetailViewController = segue.destination as? DetailViewController
+//                segue.destination as? DetailViewController else {return}
+//                DetailViewController.weatherObj = weatherObj
+//            }
+//    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        
+//        // Create a variable that you want to send
+//        
+//        let selectedIndex = self.tableView.indexPath(for: sender as! UITableViewCell)
+//        //let objWeather = self.resultWeather?(forIndexRow:selectedIndex?.row)
+//        let newWeatherVar = self.resultWeather
+//        // Create a new variable to store the instance of PlayerTableViewController
+//        let destinationDVC = segue.destination as? DetailViewController
+//        destinationDVC?.weatherObj = newWeatherVar
+//    }
+    
+     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // Create a variable that you want to send based on the destination view controller
+        // You can get a reference to the data by using indexPath shown below
+        let selectedRowWeather = resultWeather?[indexPath.row]
+        
+        // Create an instance of PlayerTableViewController and pass the variable
+        let destinationVC = DetailViewController()
+        destinationVC.resultWeather = selectedRowWeather
+        
+        // Let's assume that the segue name is called playerSegue
+        // This will perform the segue and pre-load the variable for you to use
+        destinationVC.performSegue(withIdentifier: "SegueDetail", sender: self)
     }
+}
+    
+
     
 
 

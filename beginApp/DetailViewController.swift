@@ -9,19 +9,23 @@
 import Foundation
 import UIKit
 
-class DetailViewController: UIViewController{
+class DetailViewController: UITableViewController{
     @IBOutlet var LabelDetail: UILabel!
     
-    var weatherObj : WeatherObject!
+    var weatherObj : WeatherArray?
+    var resultWeather : WeatherObject?
     
     static let identifier = "DetailWeatherCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if weatherObj != nil {
-//            label.text = "\(weatherObj["summary"])"
-//        }
+        let summary = resultWeather?["summary"] as? String
+        
+        
+        if weatherObj != nil {
+            LabelDetail.text = summary
+        }
     }
     
     override func viewDidLayoutSubviews() {
