@@ -18,8 +18,6 @@ class ViewController: UITableViewController {
     
     var resultWeather : WeatherArray?
     
-    //let weatherDataSource = RootWeatherDataSource()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +35,9 @@ class ViewController: UITableViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func refresh(){
-//        self.weatherDataSource.updateWeather { [weak self] _ in
             self.reload()
     }
     
@@ -68,7 +64,7 @@ class ViewController: UITableViewController {
                 return cell
             }
             
-            let tempImageView = UIImageView(image: UIImage(named: "weather.jpg"))
+            let tempImageView = UIImageView(image: UIImage(named: "weather.png"))
             tempImageView.frame = self.tableView.frame
             self.tableView.backgroundView = tempImageView;
             
@@ -78,7 +74,7 @@ class ViewController: UITableViewController {
             formatter.dateFormat = "EEEE dd MMM"
             let finaleDate = formatter.string(from: date as Date)
             
-            let urlimage = downloadImage(weath: objWeather["icon"] as! String)
+            let urlimage = ViewController.downloadImage(weath: objWeather["icon"] as! String)
             
             cell.titleLabel.text = "\(finaleDate)"
             cell.detailLabel.text = "\(summary)"
@@ -90,7 +86,7 @@ class ViewController: UITableViewController {
 
             }
     
-    func downloadImage(weath: String) -> URL {
+   static func downloadImage(weath: String) -> URL {
         
         
         let dictionnaryWeather = ["rain" : "http://openweathermap.org/img/w/10d.png",
@@ -108,56 +104,21 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print("User selected \(index)")
+        
+        let selectedRowWeather = resultWeather?[indexPath.row]
+        let destinationVC = DetailViewController()
+        destinationVC.resultWeather = selectedRowWeather
+        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController {
+            vc.resultWeather = selectedRowWeather
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     @IBAction func userTapped() {
         self.performSegue(withIdentifier: "SegueDetail", sender: nil)
-    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "SegueDetail"{
-//            guard let selectedIndex = self.tableView.indexPathForSelectedRow
-//            let WeatherObject = self.weatherDataSource.getWeatherObject(forIndexRow: selectedIndex.row)}else {return}
-//            guard let DetailViewController = segue.destination as? DetailViewController
-//            segue.destination as? DetailViewController else {return}
-//            DetailViewController.weatherObj = weatherObj
-//        }
-    
-//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//            if segue.identifier == "SegueDetail"{
-//                let selectedIndex = self.tableView.indexPathForSelectedRow
-//                let WeatherObject = self.resultWeather?(forIndexRow: selectedIndex?.row)} else {return}
-//                guard let DetailViewController = segue.destination as? DetailViewController
-//                segue.destination as? DetailViewController else {return}
-//                DetailViewController.weatherObj = weatherObj
-//            }
-//    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-//        // Create a variable that you want to send
-//        
-//        let selectedIndex = self.tableView.indexPath(for: sender as! UITableViewCell)
-//        //let objWeather = self.resultWeather?(forIndexRow:selectedIndex?.row)
-//        let newWeatherVar = self.resultWeather
-//        // Create a new variable to store the instance of PlayerTableViewController
-//        let destinationDVC = segue.destination as? DetailViewController
-//        destinationDVC?.weatherObj = newWeatherVar
-//    }
-    
-     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        // Create a variable that you want to send based on the destination view controller
-        // You can get a reference to the data by using indexPath shown below
-        let selectedRowWeather = resultWeather?[indexPath.row]
-        
-        // Create an instance of PlayerTableViewController and pass the variable
-        let destinationVC = DetailViewController()
-        destinationVC.resultWeather = selectedRowWeather
-        
-        // Let's assume that the segue name is called playerSegue
-        // This will perform the segue and pre-load the variable for you to use
-        destinationVC.performSegue(withIdentifier: "SegueDetail", sender: self)
     }
 }
     
