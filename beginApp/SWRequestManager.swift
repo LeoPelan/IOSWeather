@@ -11,7 +11,6 @@ import Alamofire
 import CoreLocation
 
 // Request Manager to make HTPP Calls to weather server
-
 typealias WeatherObject = Dictionary<String, AnyObject>
 typealias WeatherArray = Array<WeatherObject>
 
@@ -21,18 +20,13 @@ class SWRequestmanager: NSObject, CLLocationManagerDelegate {
     var currentLocation: CLLocation!
     
     override init() {
-//        self.actualCoordinate = (latitude: "48.8839", longitude: "2.3509")
         
+        //Geolocalisation
         locManager.requestWhenInUseAuthorization()
         
         if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
             currentLocation = locManager.location
-            //print(currentLocation.coordinate.latitude)
-            //print(currentLocation.coordinate.longitude)
-            
-            
-
             let stringLat = String(currentLocation.coordinate.latitude)
             let stringLong = String(currentLocation.coordinate.longitude)
             
@@ -48,6 +42,7 @@ class SWRequestmanager: NSObject, CLLocationManagerDelegate {
         
     }
     
+    //API call
     static let sharedInstance = SWRequestmanager()
     
     private let apiKey = "529bdcc9be6e50cf50574aa357fa7cb7"

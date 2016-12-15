@@ -12,25 +12,16 @@ import AlamofireImage
 
 class ViewController: UITableViewController {
     
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var username: UITextField!
-    @IBOutlet weak var loginBtn: UIButton!
-    
     var resultWeather : WeatherArray?
     
-
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
+        //Create refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = UIColor.blue
         self.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        SWRequestmanager.sharedInstance.fetchWeather(onSuccess: {(result) in
-            self.resultWeather = result
-            self.reload()
-        }) {(error) in
-            print("Error => \(error)")
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,11 +29,17 @@ class ViewController: UITableViewController {
     }
     
     func refresh(){
+        SWRequestmanager.sharedInstance.fetchWeather(onSuccess: {(result) in
+            self.resultWeather = result
+            self.refreshControl?.endRefreshing()
             self.reload()
+        }) {(error) in
+            print("Error => \(error)")
+        }
     }
     
     func reload() {
-    self.tableView.reloadData()
+        self.tableView.reloadData()
     }
         
         override func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,24 +61,26 @@ class ViewController: UITableViewController {
                 return cell
             }
             
+            //Set background UIImage
             let tempImageView = UIImageView(image: UIImage(named: "weather.png"))
             tempImageView.frame = self.tableView.frame
             self.tableView.backgroundView = tempImageView;
             
+            //Convert Timestamp to correct date format
             let date = NSDate(timeIntervalSince1970: TimeInterval(time))
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "fr_FR")
             formatter.dateFormat = "EEEE dd MMM"
             let finaleDate = formatter.string(from: date as Date)
             
+            //Get Icons from downloadImage()
             let urlimage = ViewController.downloadImage(weath: objWeather["icon"] as! String)
             
+            //Set labels & Images in cells
             cell.titleLabel.text = "\(finaleDate)"
             cell.detailLabel.text = "\(summary)"
-            
-            
-            
             cell.weatherImage.af_setImage(withURL: urlimage)
+            
             return cell
 
             }
@@ -94,6 +93,7 @@ class ViewController: UITableViewController {
                                   "partly-cloudy-night":"http://openweathermap.org/img/w/02n.png",
                                   "clear-day":"http://openweathermap.org/img/w/01d.png",
                                   "clear-night":"http://openweathermap.org/img/w/01n.png"]
+    
         for (clef, valeur) in dictionnaryWeather{
             if clef == weath{
                 return URL(string: valeur)!
@@ -105,8 +105,7 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print("User selected \(index)")
-        
+        //Create and perform segue to DetailViewController
         let selectedRowWeather = resultWeather?[indexPath.row]
         let destinationVC = DetailViewController()
         destinationVC.resultWeather = selectedRowWeather
@@ -117,9 +116,9 @@ class ViewController: UITableViewController {
         
     }
     
-    @IBAction func userTapped() {
-        self.performSegue(withIdentifier: "SegueDetail", sender: nil)
-    }
+//    @IBAction func userTapped() {
+//        self.performSegue(withIdentifier: "SegueDetail", sender: nil)
+//    }
 }
     
 
